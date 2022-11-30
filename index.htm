@@ -23,13 +23,13 @@
 			let postbox = document.getElementById("postbox");
 			
 			arr.forEach(function(message) {
-				console.log(`${message["author"]} - ${message["message"]} @ ${jsonTimestampToUserReadable(message["timestamp"])}`);
+				console.log(`${message["author"]} - ${message["message"]} @ ${timeToUserReadable(message["timestamp"])}`);
 			})
 		}
-		function jsonTimestampToUserReadable(jts) {
-			let dateObj = new Date(jts);
+		function timeToUserReadable(timestring = "") {
+			let dateObj = new Date(timestring = "");
 
-			let outstring = `${dateObj.getUTCHours().toString().padStart(2, '0')}:${dateObj.getUTCMinutes().toString().padStart(2, '0')}, ${dateObj.getUTCDay().toString().padStart(2, '0')}/${dateObj.getUTCMonth().toString().padStart(2, '0')}/${dateObj.getUTCFullYear()}`
+			let outstring = `${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}, ${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj.getFullYear()}`
 			
 			console.log(dateObj.getUTCMonth());
 			return outstring;
