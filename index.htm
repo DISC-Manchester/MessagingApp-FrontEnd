@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Content Example</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="This is a content example.">
+		<script async>
+		document.addEventListener('DOMContentLoaded', function () {
+			console.log(document.body);
+			fetch('http://localhost:8080/')
+			.then((response) => response.json())
+			.then((data) => writeMessagesToPage(data));
+		});
+		function PushMessageToRemote() {
+			const req = new XMLHttpRequest();
+			req.open("POST", "http://localhost:8080/");
+			let messageJSON = JSON.stringify({"author": document.getElementById("author").value, "message": document.getElementById("message").value})
+			req.setRequestHeader('Content-type', 'application/json');
+			req.send(messageJSON);
+		}
+		function writeMessagesToPage(arr) {
+			let postbox = document.getElementById("postbox");
+			
+			arr.forEach(function(message) {
+				console.log(`${message["author"]} - ${message["message"]} @ ${jsonTimestampToUserReadable(message["timestamp"])}`);
+			})
+		}
+		function jsonTimestampToUserReadable(jts) {
+			let dateObj = new Date(jts);
+
+			let outstring = `${dateObj.getUTCHours().toString().padStart(2, '0')}:${dateObj.getUTCMinutes().toString().padStart(2, '0')}, ${dateObj.getUTCDay().toString().padStart(2, '0')}/${dateObj.getUTCMonth().toString().padStart(2, '0')}/${dateObj.getUTCFullYear()}`
+			
+			console.log(dateObj.getUTCMonth());
+			return outstring;
+		}
+		</script>
+		<style>
+		.send-message-form > div {
+			margin: auto;
+			width: 50%;
+			border: 3px solid green;
+			padding: 10px;
+			display:block;
+		}
+		#sendmsg > button {
+			float: right;
+		}
+		#sendmsg > textarea {
+			width: 100%;
+			height: 20vh;
+			resize: vertical;
+		}
+		.post {
+			background-color: lightgray;
+			padding: 1em;
+		}
+		.post > .time {
+			float: right;
+		}
+		</style>
+	</head>
+	<body>
+		<h1>Content Example</h1>
+		<div id="container">
+		<div id="postbox">
+			<div class="post">
+			<span class="author">message[author]</span>
+			<span class="time">parsedTimestamp()</span>
+			<hr>
+			<span class="message">input input input input</span>
+			</div>
+		</div>
+		<hr>
+		<form action="http://localhost:8080/" method="post" class="send-message-form">
+			<div id="sendmsg">
+				<label for="name">Name: </label><input type="text" name="author" id="author" required>
+				<button onclick="PushMessageToRemote()" type="button">Send</button>
+				<br>
+				<label for="message">Write your message here:</label>
+				<br>
+				<textarea id="message" name="message"></textarea>
+			</div>
+		</form>
+		</div>
+	</body>
+</html>
