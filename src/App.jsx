@@ -2,21 +2,41 @@ import React from 'react';
 import './App.css';
 const API = "http://localhost:8080";
 
-function App() {
-	return (
-		<div id="container">
-			<h1>Content Example</h1>
-			<Mailbox />
-			<hr />
-			<SendForm />
-		</div>
-	);
+class App extends React.Component {
+	constructor() {
+		super();
+		this.state = {messages: []};
+	}
+	
+	appendMessage = (input) => {
+		let newMessage = {"timestamp": (new Date()).toJSON(), "author": input.authorName, "message": input.messageInput, "_id": Math.random().toString().substring(2)};
+		this.setState({messages: [...this.state.messages, newMessage]});
+	}
+
+	componentDidMount() {
+		fetch(API)
+		.then((response) => response.json())
+		.then((data) => this.setState({ messages: data}))
+		.catch(function(err) {console.error("Failed to connect to API...")});
+	}
+
+	render() {
+		return (
+			<div id="container">
+				<h1>Content Example</h1>
+				<a href="#sendmsg">go to posting area</a>
+				<Mailbox messages={this.state.messages} />
+				<hr />
+				<SendForm appendMessage={this.appendMessage}/>
+			</div>
+		);
+	}
 }
 
 class Mailbox extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {messages: []};
+		this.state = {messages: this.props.messages};
 		this.convertTime = this.convertTime.bind(this);
 	};
 	convertTime(time = "") {
@@ -26,16 +46,16 @@ class Mailbox extends React.Component {
 			
 		return outstring;
 	}
-	
-	componentDidMount() {
-		fetch(API)
-		.then((response) => response.json())
-		.then((data) => this.setState({ messages: data}))
-		.catch(function(err) {return <div>Failed to connect to API...</div>});
+
+	componentDidUpdate(prevProps) {
+		if(prevProps.messages.length !== this.props.messages.length) {
+			this.setState({messages: this.props.messages});
+		}
 	}
+
 	render() {
 		const messages = this.state.messages.map((msg) => {
-		return <div className="post" key={msg._id}><span className="author">{msg.author}</span><span className="time">{this.convertTime(msg.timestamp)}</span><hr/><div className="message-wrapper"><span className="message">{msg.message}</span></div></div>
+			return <div className="post" key={msg._id}><span className="author">{msg.author}</span><span className="time">{this.convertTime(msg.timestamp)}</span><hr/><div className="message-wrapper"><span className="message">{msg.message}</span></div></div>
 		}); // I usually prefer inline functions prefered to arrow ones, but (this) was important to persist.
 		return (
 			<div id="postbox">
@@ -54,6 +74,11 @@ class SendForm extends React.Component {
 		this.handleMsgBoxChange = this.handleMsgBoxChange.bind(this);
 		this.handleAuthorChange = this.handleAuthorChange.bind(this);
 	};
+	
+	appendMessage = () => {
+		this.props.appendMessage(this.state)
+	}
+	
 	PushMessageToRemote(e) {
 		const req = new XMLHttpRequest();
 		req.open("POST", API);
@@ -63,6 +88,7 @@ class SendForm extends React.Component {
 		req.addEventListener('load', () => {
 			if (req.status === 201) {
 				this.formRef.current.style.borderColor = "green";
+				this.appendMessage();
 			} else {
 				this.formRef.current.style.borderColor = "red";
 			}
