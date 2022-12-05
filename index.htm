@@ -10,7 +10,8 @@
 		document.addEventListener('DOMContentLoaded', function () {
 			fetch(API)
 			.then((response) => response.json())
-			.then((data) => writeMessagesToPage(data));
+			.then((data) => writeMessagesToPage(data))
+			.catch(function(err) {document.getElementById("postbox").innerText = "failed to connect to api..."});
 		});
 		function PushMessageToRemote() {
 			const req = new XMLHttpRequest();
@@ -18,6 +19,25 @@
 			let messageJSON = JSON.stringify({"author": document.getElementById("author").value, "message": document.getElementById("message").value})
 			req.setRequestHeader('Content-type', 'application/json');
 			req.send(messageJSON);
+			req.addEventListener('load', function() {
+				if (req.status === 201) {
+					document.getElementById('sendmsg').style.borderColor = "green";
+					writeMessagesToPage([{timestamp: (new Date).toJSON(), ...JSON.parse(messageJSON)}]);
+				} else {
+					document.getElementById('sendmsg').style.borderColor = "red";
+					// the server returned any value other than 201
+				}
+				setTimeout(function (){
+					document.getElementById('sendmsg').style.borderColor = "black";
+				}, 5000);
+			});
+			req.addEventListener('error', function() {
+				// failed to connect to server outright
+				document.getElementById('sendmsg').style.borderColor = "red";
+				setTimeout(function (){
+					document.getElementById('sendmsg').style.borderColor = "black";
+				}, 5000);
+			})
 		}
 		function writeMessagesToPage(arr) {
 			let postbox = document.getElementById("postbox");
@@ -56,7 +76,7 @@
 		.send-message-form > div {
 			margin: auto;
 			width: 50%;
-			border: 3px solid green;
+			border: 3px solid black;
 			padding: 10px;
 			display:block;
 			padding-bottom: 0;
