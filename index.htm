@@ -23,15 +23,29 @@
 			let postbox = document.getElementById("postbox");
 			
 			arr.forEach(function(message) {
-				console.log(`${message["author"]} - ${message["message"]} @ ${timeToUserReadable(message["timestamp"])}`);
+				let post = document.createElement('div');
+				let postAuthor = document.createElement('span');
+				let postTimestamp = document.createElement('span');
+				let postMessage = document.createElement('span');
+				post.className = "post";
+				postAuthor.className = "author";
+				postTimestamp.className = "time";
+				postMessage.className = "message";
+				postAuthor.innerText = message["author"];
+				postTimestamp.innerText = timeToUserReadable(message["timestamp"]);
+				postMessage.innerText = message["message"];
+				post.appendChild(postAuthor);
+				post.appendChild(postTimestamp);
+				post.appendChild(document.createElement('hr'));
+				post.appendChild(postMessage);
+				postbox.appendChild(post);
 			})
 		}
 		function timeToUserReadable(timestring = "") {
-			let dateObj = new Date(timestring = "");
+			let dateObj = new Date(timestring);
 
 			let outstring = `${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}, ${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj.getFullYear()}`
 			
-			console.log(dateObj.getUTCMonth());
 			return outstring;
 		}
 		</script>
@@ -54,9 +68,13 @@
 		.post {
 			background-color: lightgray;
 			padding: 1em;
+			margin: 3em 1em;
 		}
 		.post > .time {
 			float: right;
+		}
+		.send-message-form {
+			margin: 3em;
 		}
 		</style>
 	</head>
@@ -64,12 +82,6 @@
 		<h1>Content Example</h1>
 		<div id="container">
 		<div id="postbox">
-			<div class="post">
-			<span class="author">message[author]</span>
-			<span class="time">parsedTimestamp()</span>
-			<hr>
-			<span class="message">input input input input</span>
-			</div>
 		</div>
 		<hr>
 		<form action="http://localhost:8080/" method="post" class="send-message-form">
