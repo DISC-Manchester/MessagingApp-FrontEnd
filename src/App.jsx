@@ -55,7 +55,7 @@ class Mailbox extends React.Component {
 
 	render() {
 		const messages = this.state.messages.map((msg) => {
-			return <div className="post" key={msg._id}><span className="author">{msg.author}</span><span className="time">{this.convertTime(msg.timestamp)}</span><hr/><div className="message-wrapper"><span className="message">{msg.message}</span></div></div>
+			return <div className="post" key={msg._id}><span className="author">{msg.author}</span><span className="time" title={msg.timestamp}>{this.convertTime(msg.timestamp)}</span><hr/><div className="message-wrapper"><span className="message">{msg.message}</span></div></div>
 		}); // I usually prefer inline functions prefered to arrow ones, but (this) was important to persist.
 		return (
 			<div id="postbox">
