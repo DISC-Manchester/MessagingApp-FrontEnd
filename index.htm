@@ -6,15 +6,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="This is a content example.">
 		<script async>
+		const API = 'http://localhost:8080/';
 		document.addEventListener('DOMContentLoaded', function () {
-			console.log(document.body);
-			fetch('http://localhost:8080/')
+			fetch(API)
 			.then((response) => response.json())
 			.then((data) => writeMessagesToPage(data));
 		});
 		function PushMessageToRemote() {
 			const req = new XMLHttpRequest();
-			req.open("POST", "http://localhost:8080/");
+			req.open("POST", API);
 			let messageJSON = JSON.stringify({"author": document.getElementById("author").value, "message": document.getElementById("message").value})
 			req.setRequestHeader('Content-type', 'application/json');
 			req.send(messageJSON);
@@ -27,17 +27,20 @@
 				let postAuthor = document.createElement('span');
 				let postTimestamp = document.createElement('span');
 				let postMessage = document.createElement('span');
+				let postMsgAuthor = document.createElement('div');
 				post.className = "post";
 				postAuthor.className = "author";
 				postTimestamp.className = "time";
 				postMessage.className = "message";
+				postMsgAuthor.className = "message-wrapper";
 				postAuthor.innerText = message["author"];
 				postTimestamp.innerText = timeToUserReadable(message["timestamp"]);
 				postMessage.innerText = message["message"];
 				post.appendChild(postAuthor);
 				post.appendChild(postTimestamp);
 				post.appendChild(document.createElement('hr'));
-				post.appendChild(postMessage);
+				postMsgAuthor.appendChild(postMessage);
+				post.appendChild(postMsgAuthor);
 				postbox.appendChild(post);
 			})
 		}
@@ -56,14 +59,10 @@
 			border: 3px solid green;
 			padding: 10px;
 			display:block;
+			padding-bottom: 0;
 		}
 		#sendmsg > button {
 			float: right;
-		}
-		#sendmsg > textarea {
-			width: 100%;
-			height: 20vh;
-			resize: vertical;
 		}
 		.post {
 			background-color: lightgray;
@@ -75,6 +74,17 @@
 		}
 		.send-message-form {
 			margin: 3em;
+		}
+		.post > .message-wrapper {
+			padding: 1em 0;
+		}
+		#sendmsg > .msg-entry-wrapper {
+			padding-top: 1em;
+		}
+		#sendmsg > .msg-entry-wrapper > textarea {
+			width: 100%;
+			height: 20vh;
+			resize: vertical;
 		}
 		</style>
 	</head>
@@ -89,9 +99,11 @@
 				<label for="name">Name: </label><input type="text" name="author" id="author" required>
 				<button onclick="PushMessageToRemote()" type="button">Send</button>
 				<br>
-				<label for="message">Write your message here:</label>
+				<div class="msg-entry-wrapper">
+					<label for="message">Write your message here:</label>
+					<textarea id="message" name="message"></textarea>
+				</div>
 				<br>
-				<textarea id="message" name="message"></textarea>
 			</div>
 		</form>
 		</div>
