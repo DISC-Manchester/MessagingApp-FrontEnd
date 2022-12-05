@@ -1,0 +1,33 @@
+.send-message-form > div {
+	margin: auto;
+	width: 50%;
+	border: 3px solid black;
+	padding: 10px;
+	display:block;
+	padding-bottom: 0;
+}
+#sendmsg > button {
+	float: right;
+}
+.post {
+	background-color: lightgray;
+	padding: 1em;
+	margin: 3em 1em;
+}
+.post > .time {
+	float: right;
+}
+.send-message-form {
+	margin: 3em;
+}
+.post > .message-wrapper {
+	padding: 1em 0;
+}
+#sendmsg > .msg-entry-wrapper {
+	padding-top: 1em;
+}
+#sendmsg > .msg-entry-wrapper > textarea {
+	width: 100%;
+	height: 20vh;
+	resize: vertical;
+}
