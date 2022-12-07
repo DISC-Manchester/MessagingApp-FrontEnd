@@ -24,7 +24,6 @@ class App extends React.Component {
 		return (
 			<div id="container">
 				<h1>Content Example</h1>
-				<a href="#sendmsg">go to posting area</a>
 				<Mailbox messages={this.state.messages} />
 				<hr />
 				<SendForm appendMessage={this.appendMessage}/>
@@ -121,7 +120,7 @@ class SendForm extends React.Component {
 			<div>
 				<form action="http://localhost:8080/" method="post" className="send-message-form">
 					<div id="sendmsg" ref={this.formRef}>
-						<label htmlFor="name">Name: </label><input type="text" name="author" id="author" onChange={this.handleAuthorChange} value={this.state.authorName} required />
+						<label htmlFor="author">Name: </label><input type="text" name="author" id="author" onChange={this.handleAuthorChange} value={this.state.authorName} required />
 						<button onClick={this.PushMessageToRemote} type="button">Send</button>
 						<br />
 						<div className="msg-entry-wrapper">
