@@ -118,7 +118,7 @@ class SendForm extends React.Component {
 	render() {
 		return (
 			<div>
-				<form action="http://localhost:8080/" method="post" className="send-message-form">
+				<form action={API} method="post" className="send-message-form">
 					<div id="sendmsg" ref={this.formRef}>
 						<label htmlFor="author">Name: </label><input type="text" name="author" id="author" onChange={this.handleAuthorChange} value={this.state.authorName} required />
 						<button onClick={this.PushMessageToRemote} type="button">Send</button>
