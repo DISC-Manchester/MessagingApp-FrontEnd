@@ -84,21 +84,22 @@ class SendForm extends React.Component {
 		let messageJSON = JSON.stringify({"author": this.state.authorName, "message": this.state.messageInput})
 		req.setRequestHeader('Content-type', 'application/json');
 		req.send(messageJSON);
+		// Everything below this needs to be changed into something that shows bubble dialogs instead
 		req.addEventListener('load', () => {
 			if (req.status === 201) {
-				this.formRef.current.style.borderColor = "green";
+				this.formRef.current.style.background = "green";
 				this.appendMessage();
 			} else {
-				this.formRef.current.style.borderColor = "red";
+				this.formRef.current.style.background = "red";
 			}
 			setTimeout(() => {
-				this.formRef.current.style.borderColor = "black";
+				this.formRef.current.style.background = "transparent";
 			}, 5000);
 		});
 		req.addEventListener('error', () => {
-			this.formRef.current.style.borderColor = "red";
+			this.formRef.current.style.background = "red";
 			setTimeout(() => {
-				this.formRef.current.style.borderColor = "black";
+				this.formRef.current.style.background = "transparent";
 			}, 5000);
 		})
 	}
@@ -120,12 +121,19 @@ class SendForm extends React.Component {
 			<div>
 				<form action={API} method="post" className="send-message-form">
 					<div id="sendmsg" ref={this.formRef}>
-						<label htmlFor="author">Name: </label><input type="text" name="author" id="author" onChange={this.handleAuthorChange} value={this.state.authorName} required />
-						<button onClick={this.PushMessageToRemote} type="button">Send</button>
+						<div class="name-group">
+							<label htmlFor="author" hidden>Name: </label><input type="text" name="author" id="author" placeholder="Name" onChange={this.handleAuthorChange} value={this.state.authorName} required />
+							<div class="button-group">
+								<button><LetterSVG/></button> {/*<!-- Very Bad Hack!!! Find real way to do this without redundant contents -->*/}
+							</div>
+						</div>
 						<br />
 						<div className="msg-entry-wrapper">
-							<label htmlFor="message">Write your message here:</label>
-							<textarea id="message" name="message" onChange={this.handleMsgBoxChange} value={this.state.messageInput}></textarea>
+							<label htmlFor="message" hidden>Write your message here:</label>
+							<textarea id="message" name="message" placeholder="message..." onChange={this.handleMsgBoxChange} value={this.state.messageInput}></textarea>
+							<div class="button-group">
+								<button onClick={this.PushMessageToRemote} type="button"><LetterSVG/></button>
+							</div>
 						</div>
 						<br />
 					</div>
@@ -134,5 +142,28 @@ class SendForm extends React.Component {
 		)
 	}
 }
+
+const LetterSVG = (props) => (
+  <svg
+    width={25}
+    height={25}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 25 25"
+    {...props}
+  >
+    <path
+      fill="none"
+      stroke="#fff"
+      d="m12.5 2.5-10 5V20h20V7.5Z"
+      strokeWidth={1.25}
+    />
+    <path
+      stroke="#fff"
+      fill="none"
+      d="m2.5 7.5 6.25 6.25L2.5 20l6.25-6.25h7.5L22.5 7.5l-6.25 6.25L22.5 20"
+      strokeWidth={1}
+    />
+  </svg>
+);
 
 export default App;
