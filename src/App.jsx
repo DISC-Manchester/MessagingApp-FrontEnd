@@ -23,7 +23,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<main id="container">
-				<h1>Content Example</h1>
+				<h1>Content Example</h1> {/* Consider for removal? Do we need an always-on-top header? */}
 				<Mailbox messages={this.state.messages} />
 				<hr />
 				<SendForm appendMessage={this.appendMessage}/>
@@ -32,7 +32,7 @@ class App extends React.Component {
 	}
 }
 
-class Mailbox extends React.Component {
+class Mailbox extends React.Component { /* rewrite so we can use a hook to scroll on push or find alternative what works with class components */
 	constructor(props) {
 		super(props);
 		this.state = {messages: this.props.messages};
@@ -144,26 +144,10 @@ class SendForm extends React.Component {
 }
 
 const LetterSVG = (props) => (
-  <svg
-    width={25}
-    height={25}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 25 25"
-    {...props}
-  >
-    <path
-      fill="none"
-      stroke="#fff"
-      d="m12.5 2.5-10 5V20h20V7.5Z"
-      strokeWidth={1.25}
-    />
-    <path
-      stroke="#fff"
-      fill="none"
-      d="m2.5 7.5 6.25 6.25L2.5 20l6.25-6.25h7.5L22.5 7.5l-6.25 6.25L22.5 20"
-      strokeWidth={1}
-    />
-  </svg>
+<svg width={25} height={25} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" {...props} >
+	<path fill="none" stroke="#fff" d="m12.5 2.5-10 5V20h20V7.5Z" strokeWidth={1.25}/>
+	<path stroke="#fff" fill="none" d="m2.5 7.5 6.25 6.25L2.5 20l6.25-6.25h7.5L22.5 7.5l-6.25 6.25L22.5 20" strokeWidth={1} />
+</svg>
 );
 
 export default App;
