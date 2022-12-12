@@ -1,13 +1,13 @@
 :root {
-	--main: #29A4FF;
+	--main: #29A4FF; /* find a better colour, lighthouse calls this shade of blue an accessibility issue */
 }
 .send-message-form > div {
 	margin: auto;
-	width: 80%;
-	padding: 10px;
+	width: 85%;
+	padding: 0.5em 0;
 	display:block;
 	padding-bottom: 0;
-	border-radius: 0.5em;
+	border-radius: 1em;
 }
 .post {
 	padding: 1em;
@@ -20,9 +20,11 @@
 	margin-top: 3em;
 }
 .post > .message-wrapper {
-	border-radius: 0.5em;
+	border-radius: 1em;
+	border-top-left-radius: 0; /* is this intentional? */
 	background-color: white;
 	padding: 1em;
+	min-height: 4em;
 }
 #sendmsg > .msg-entry-wrapper {
 	padding-top: 1em;
@@ -32,12 +34,14 @@
 	width: 100%;
 	height: 10vh;
 	resize: vertical;
-	border-radius: 0.5em;
-	font-family: sans-serif;
+	border-radius: 0.75em;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	border: none;
 }
 
 #postbox {
-	height:50vh;
+	height:60vh;
 	overflow-y: scroll;
 }
 
@@ -50,12 +54,15 @@
 }
 
 #container {
-	font-family: sans-serif;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
 }
 
 body {
 	margin: -1em 0;
 	background: #F5F5F5;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
 }
 
 hr {
@@ -64,6 +71,8 @@ hr {
 
 .post > .time, .post > .author {
 	color: var(--main);
+	display: inline-block;
+	padding-bottom: 0.4em;
 }
 
 .send-message-form {
@@ -86,11 +95,12 @@ hr {
 	background: transparent;
 	border: none;
 	color: white;
+	padding-left: 1.5em;
 }
 
 #sendmsg > .name-group > #author {
 	width: 100%;
-	border-radius: 0.5em;
+	border-radius: 0.75em;
 }
 
 #sendmsg > .name-group > label, .msg-entry-wrapper > label {
@@ -98,8 +108,19 @@ hr {
 }
 #sendmsg > .name-group > input {
 	padding: 1em;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	border: none;
 }
 
 .name-group > .button-group {
 	visibility: hidden;
+}
+
+.post > .author {
+padding-left: 1em;
+}
+
+.post > .time {
+padding-right: 1em;
 }

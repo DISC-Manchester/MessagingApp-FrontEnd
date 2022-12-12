@@ -22,12 +22,12 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div id="container">
+			<main id="container">
 				<h1>Content Example</h1>
 				<Mailbox messages={this.state.messages} />
 				<hr />
 				<SendForm appendMessage={this.appendMessage}/>
-			</div>
+			</main>
 		);
 	}
 }
@@ -121,9 +121,9 @@ class SendForm extends React.Component {
 			<div>
 				<form action={API} method="post" className="send-message-form">
 					<div id="sendmsg" ref={this.formRef}>
-						<div class="name-group">
+						<div className="name-group">
 							<label htmlFor="author" hidden>Name: </label><input type="text" name="author" id="author" placeholder="Name" onChange={this.handleAuthorChange} value={this.state.authorName} required />
-							<div class="button-group">
+							<div className="button-group">
 								<button><LetterSVG/></button> {/*<!-- Very Bad Hack!!! Find real way to do this without redundant contents -->*/}
 							</div>
 						</div>
@@ -131,8 +131,8 @@ class SendForm extends React.Component {
 						<div className="msg-entry-wrapper">
 							<label htmlFor="message" hidden>Write your message here:</label>
 							<textarea id="message" name="message" placeholder="message..." onChange={this.handleMsgBoxChange} value={this.state.messageInput}></textarea>
-							<div class="button-group">
-								<button onClick={this.PushMessageToRemote} type="button"><LetterSVG/></button>
+							<div className="button-group">
+								<button onClick={this.PushMessageToRemote} type="button" title="Send message"><LetterSVG/></button>
 							</div>
 						</div>
 						<br />
