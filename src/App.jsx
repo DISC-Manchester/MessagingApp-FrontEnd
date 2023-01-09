@@ -22,8 +22,8 @@ class App extends React.Component {
 
 	render() {
 		return (
+			//<h1>Content Example</h1> {/* Consider for removal? Do we need an always-on-top header? */}
 			<main id="container">
-				<h1>Content Example</h1> {/* Consider for removal? Do we need an always-on-top header? */}
 				<Mailbox messages={this.state.messages} />
 				<hr />
 				<SendForm appendMessage={this.appendMessage}/>
@@ -118,7 +118,7 @@ class SendForm extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div id="SendForm">
 				<form action={API} method="post" className="send-message-form">
 					<div id="sendmsg" ref={this.formRef}>
 						<div className="name-group">
