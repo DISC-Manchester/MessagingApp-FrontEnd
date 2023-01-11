@@ -124,7 +124,7 @@ class SendForm extends React.Component {
 						<div className="name-group">
 							<label htmlFor="author" hidden>Name: </label><input type="text" name="author" id="author" placeholder="Name" onChange={this.handleAuthorChange} value={this.state.authorName} required />
 							<div className="button-group">
-								<button><LetterSVG/></button> {/*<!-- Very Bad Hack!!! Find real way to do this without redundant contents -->*/}
+								<button><svg width={25} height={25} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25"></svg></button> {/*<!-- Very Bad Hack!!! Find real way to do this without redundant contents -->*/}
 							</div>
 						</div>
 						<br />
